@@ -1,0 +1,6 @@
+{
+  "colorize": true,
+  "translateTime": true,
+  "ignore": "pid",
+  "messageFormat": "lvl:{level} {message}"
+}
