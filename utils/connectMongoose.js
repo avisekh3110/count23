@@ -8,19 +8,33 @@ const dblogger = logger.child({
 const user = process.env.MONGO_USER || "";
 const pswd = process.env.MONGO_PASS || "";
 
-const URI = `mongodb+srv://${user}:${pswd}@main.ppnesjo.mongodb.net/?retryWrites=true&w=majority
-`;
+const URI = `mongodb+srv://${user}:${pswd}@cluster0.jc8msxu.mongodb.net/?retryWrites=true&w=majority`;
 
-dblogger.info({ data: "Connecting to Database" });
-
-const connectDB =
-  (handler) =>
-  async (req, res) => {
-    if (connections[0].readyState) {
-      return handler(req, res);
-    }
-    await connect(URI);
-    return handler(req, res);
-  };
-
+const connectDB = () => {
+  return new Promise((resolve, reject) => {
+    dblogger.info({
+      data: {
+        msg: "Connecting to database",
+      },
+    });
+    connect(URI, { useNewUrlParser: true })
+      .then((db) => {
+        dblogger.info({
+          data: {
+            msg: "Connected to database",
+          },
+        });
+        resolve(db);
+      })
+      .catch((err) => {
+        dblogger.error({
+          data: {
+            msg: "Error connecting to database",
+            err,
+          },
+        });
+        reject(err);
+      });
+  });
+};
 export default connectDB;

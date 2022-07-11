@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev | pino-pretty",
+    "dev": "next dev -p 3001 | pino-pretty",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -15,11 +15,13 @@
     "@mui/material": "^5.8.7",
     "axios": "^0.27.2",
     "cookies-next": "^2.1.1",
+    "fs": "^0.0.1-security",
     "mongoose": "^6.4.4",
     "next": "12.2.2",
     "pino": "^8.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
