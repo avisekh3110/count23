@@ -32,6 +32,8 @@ function Main({ wastedDays, marks, lastUpdated }) {
     marks,
     lastUpdated,
   });
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const handleUp = () => {
     axios.post("/api/up").then((res) => {
@@ -69,7 +71,11 @@ function Main({ wastedDays, marks, lastUpdated }) {
       <div className="flex max-w-xs  w-full flex-col justify-center items-center gap-6">
         <div className="text-white font-extralight text-lg">
           last updated:{" "}
-          {formatDistance(new Date(userData.lastUpdated), new Date())} ago
+          {formatDistance(
+            new Date(mounted ? userData.lastUpdated : lastUpdated),
+            new Date()
+          )}{" "}
+          ago
         </div>
         <div className="flex flex-col select-none w-full justify-center bg-primary text-white py-8 rounded-md">
           <div className="text-7xl w-full flex font-bold justify-center">
@@ -100,21 +106,25 @@ function Main({ wastedDays, marks, lastUpdated }) {
       </div>
       <div
         className={`max-w-xs w-full select-none flex flex-col justify-center items-center ${
-          userData.marks >= 95
+          mounted
+            ? userData.marks
+            : marks >= 95
             ? "bg-green-400"
-            : userData.marks >= 85
+            : mounted
+            ? userData.marks
+            : marks >= 85
             ? "bg-orange-400"
             : "bg-rose-500"
         } text-white rounded-md py-8`}
       >
         <div className="text-7xl flex flex-col w-full justify-center items-center font-bold ">
-          {getMarks(userData.wastedDays)}
+          {getMarks(mounted ? userData.wastedDays : wastedDays)}
         </div>
         <div>Percentage</div>
       </div>
       <div className="flex font-bold text-white gap-4">
         <div>DAYS WASTED :</div>
-        <div>{userData.wastedDays}</div>
+        <div>{mounted ? userData.wastedDays : wastedDays}</div>
       </div>
     </main>
   );
