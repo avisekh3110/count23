@@ -5,3 +5,9 @@ export const getDaysLeft = () => {
   const daysLeft = Math.floor(daysTillDec31 / (1000 * 60 * 60 * 24));
   return daysLeft;
 };
+
+export const getYesterday = () => {
+  const today = new Date();
+  const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+  return yesterday;
+};

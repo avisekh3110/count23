@@ -1,5 +1,6 @@
 import { model, models, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
+import { getYesterday } from "../utils/time";
 
 const UserSchema = new Schema({
   name: {
@@ -9,6 +10,10 @@ const UserSchema = new Schema({
   wastedDays: {
     type: Number,
     default: 0,
+  },
+  lastUpdated: {
+    type: String,
+    default: getYesterday().toUTCString(),
   },
 });
 

@@ -1,4 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Moonrocks&display=swap");
+/* fonts */
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
 /* Tailwind utilities */
