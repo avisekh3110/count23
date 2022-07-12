@@ -27,20 +27,12 @@ function Main({ wastedDays, marks, lastUpdated }) {
   const daysLeft = getDaysLeft();
 
   const [disabled, setDisabled] = useState(isToday(new Date(lastUpdated)));
-  const [userData, setUserData] = useState({
-    wastedDays,
-    marks,
-    lastUpdated,
-  });
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
 
   const handleUp = () => {
     axios.post("/api/up").then((res) => {
       if (res.data.result) {
         console.log(res.data);
         toast.success("Successfully utilised the day!");
-        setUserData(res.data.user);
         setDisabled(true);
       } else {
         res.data.errs &&
@@ -55,7 +47,6 @@ function Main({ wastedDays, marks, lastUpdated }) {
     axios.post("/api/down").then((res) => {
       if (res.data.result) {
         toast.error("Successfully wasted the day! 🥲");
-        setUserData(res.data.user);
         setDisabled(true);
       } else {
         res.data.errs &&
@@ -70,12 +61,7 @@ function Main({ wastedDays, marks, lastUpdated }) {
     <main className=" bg-slate-900 flex flex-col justify-center  items-center w-full gap-6 min-h-onlymain">
       <div className="flex max-w-xs  w-full flex-col justify-center items-center gap-6">
         <div className="text-white font-extralight text-lg">
-          last updated:{" "}
-          {formatDistance(
-            new Date(mounted ? userData.lastUpdated : lastUpdated),
-            new Date()
-          )}{" "}
-          ago
+          last updated: {formatDistance(new Date(lastUpdated), new Date())} ago
         </div>
         <div className="flex flex-col select-none w-full justify-center bg-primary text-white py-8 rounded-md">
           <div className="text-7xl w-full flex font-bold justify-center">
@@ -106,25 +92,21 @@ function Main({ wastedDays, marks, lastUpdated }) {
       </div>
       <div
         className={`max-w-xs w-full select-none flex flex-col justify-center items-center ${
-          mounted
-            ? userData.marks
-            : marks >= 95
+          marks >= 95
             ? "bg-green-400"
-            : mounted
-            ? userData.marks
             : marks >= 85
             ? "bg-orange-400"
             : "bg-rose-500"
         } text-white rounded-md py-8`}
       >
         <div className="text-7xl flex flex-col w-full justify-center items-center font-bold ">
-          {getMarks(mounted ? userData.wastedDays : wastedDays)}
+          {getMarks(wastedDays)}
         </div>
         <div>Percentage</div>
       </div>
       <div className="flex font-bold text-white gap-4">
         <div>DAYS WASTED :</div>
-        <div>{mounted ? userData.wastedDays : wastedDays}</div>
+        <div>{wastedDays}</div>
       </div>
     </main>
   );
