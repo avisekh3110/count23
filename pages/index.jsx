@@ -1,7 +1,7 @@
 import ArrowUp from "@mui/icons-material/ArrowDropUp";
 import ArrowDown from "@mui/icons-material/ArrowDropDown";
 import connectDB from "../utils/connectMongoose";
-import { getDaysLeft, getYesterday } from "../utils/time";
+import { getDaysLeft, getDaysPassed, getYesterday } from "../utils/time";
 import User from "../models/user";
 import logger from "../utils/logger";
 import { toast, ToastContainer } from "react-toastify";
@@ -160,6 +160,26 @@ export const getServerSideProps = async ({ req, res }) => {
       } else {
         user = await User.findOne({});
         console.log("User Found:", user);
+      }
+      const daysNotLoggedIn = getDaysPassed(user.lastUpdated);
+      homeLogger.info({
+        data: {
+          daysNotLoggedIn,
+        },
+      });
+      if (daysNotLoggedIn > 0) {
+        user = await User.findOneAndUpdate(
+          {},
+          {
+            $set: { lastUpdated: getYesterday().toUTCString() },
+            $inc: { wastedDays: daysNotLoggedIn },
+          }
+        );
+        logger.info({
+          data: {
+            user,
+          },
+        });
       }
       const marks = getMarks(user.wastedDays);
       return {

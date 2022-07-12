@@ -6,8 +6,30 @@ export const getDaysLeft = () => {
   return daysLeft;
 };
 
+export const getToday = () => {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return today;
+};
+
 export const getYesterday = () => {
-  const today = new Date();
-  const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+  const today = getToday();
+  const yesterday = new Date(today.getTime() - 1000 * 60 * 60 * 24);
   return yesterday;
+};
+
+export const getDaysPassed = (dateString) => {
+  const today = getToday().getTime();
+  console.log("today:", today);
+  const date = new Date(dateString);
+  const dateNoon = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    0,
+    5
+  );
+  console.log("date:", dateNoon);
+  const daysPassed = Math.floor((today - dateNoon) / (1000 * 60 * 60 * 24));
+  return daysPassed;
 };
