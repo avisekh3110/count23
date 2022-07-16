@@ -10,10 +10,13 @@ const downHandler = (req, res) => {
   downLogger.info({ data: { path: "/api/down", method: req.method } });
 
   if (req.method === "POST") {
+    downLogger.info({ data: { path: "/api/down", value: 1 } });
     User.exists({}).then((exists) => {
+      downLogger.info({ data: { path: "/api/down", value: 2 } });
       if (exists) {
         User.findOne({})
           .then((user) => {
+            downLogger.info({ data: { path: "/api/down", value: 3 } });
             downLogger.info({
               data: {
                 isToday: isToday(new Date(user.lastUpdated)),
@@ -21,13 +24,16 @@ const downHandler = (req, res) => {
               },
             });
             if (isToday(new Date(user.lastUpdated))) {
-              downLogger.info("User already updated today");
+              downLogger.info({ data: { path: "/api/down", value: 4 } });
+
+              downLogger.info({ data: { msg: "User already updated today" } });
               res.status(200).json({
                 result: false,
                 errs: ["User already updated today"],
                 message: "User already updated today",
               });
             } else {
+              downLogger.info({ data: { path: "/api/down", value: 5 } });
               User.findOneAndUpdate(
                 {},
                 {
@@ -36,6 +42,8 @@ const downHandler = (req, res) => {
                 }
               )
                 .then((updatedUser) => {
+                  downLogger.info({ data: { path: "/api/down", value: 6 } });
+
                   downLogger.info({
                     data: {
                       user: updatedUser,
@@ -49,6 +57,8 @@ const downHandler = (req, res) => {
                   });
                 })
                 .catch((errFOU) => {
+                  downLogger.info({ data: { path: "/api/down", value: 7 } });
+
                   downLogger.error({ data: { err: errFOU } });
                   res.send({
                     message: "Error updating user",
@@ -59,6 +69,8 @@ const downHandler = (req, res) => {
             }
           })
           .catch((errFOU) => {
+            downLogger.info({ data: { path: "/api/down", value: 8 } });
+
             downLogger.error({ data: { err: errFOU } });
             res.send({
               message: "Error finding user",
@@ -67,7 +79,9 @@ const downHandler = (req, res) => {
             });
           });
       } else {
-        uplogger.error({
+        downLogger.info({ data: { path: "/api/down", value: 9 } });
+
+        downLogger.error({
           data: {
             message: "User does not exist",
             result: false,
