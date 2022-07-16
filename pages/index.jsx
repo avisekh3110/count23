@@ -12,6 +12,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { isToday } from "date-fns";
 import { getMarks } from "../utils/marks";
+import { Button } from "@mui/material";
 
 function Nav() {
   return (
@@ -27,51 +28,104 @@ function Main({ wastedDays, marks, lastUpdated }) {
   const daysLeft = getDaysLeft();
 
   const [disabled, setDisabled] = useState(isToday(new Date(lastUpdated)));
+  const [userData, setUserData] = useState({
+    wastedDays: wastedDays,
+    marks: marks,
+    lastUpdated: lastUpdated,
+  });
 
   const handleUp = () => {
+    setDisabled(true);
     axios
       .post("/api/up")
       .then((res) => {
         if (res.data.result) {
           console.log(res.data);
           toast.success("Successfully utilised the day!");
-          setDisabled(true);
+          setUserData({
+            wastedDays: res.data.user.wastedDays,
+            marks: getMarks(res.data.user.wastedDays),
+            lastUpdated: res.data.user.lastUpdated,
+          });
         } else {
           res.data.errs &&
             res.data.errs.forEach((err) => {
               toast.error(err);
             });
+          setDisabled(false);
         }
       })
       .catch((err) => {
         toast.error(err);
+        setDisabled(false);
       });
   };
 
   const handleDown = () => {
+    setDisabled(true);
     axios
       .post("/api/down")
       .then((res) => {
         if (res.data.result) {
-          toast.error("Successfully wasted the day! 🥲");
-          setDisabled(true);
+          toast.error("Successfull wasted the day! 🥲");
+          console.log({
+            wastedDays: res.data.user.wastedDays,
+            marks: getMarks(res.data.user.wastedDays),
+            lastUpdated: res.data.user.lastUpdated,
+          });
+          setUserData({
+            wastedDays: res.data.user.wastedDays,
+            marks: getMarks(res.data.user.wastedDays),
+            lastUpdated: res.data.user.lastUpdated,
+          });
         } else {
           res.data.errs &&
             res.data.errs.forEach((err) => {
               toast.error(err);
             });
+          setDisabled(false);
         }
       })
       .catch((err) => {
         toast.error(err);
+        setDisabled(false);
+      });
+  };
+
+  const deleteHandler = () => {
+    axios
+      .post("/api/delete")
+      .then((res) => {
+        if (res.data.result) {
+          toast.success("Successfully deleted your account!");
+          setUserData({
+            wastedDays: 0,
+            marks: getMarks(0),
+            lastUpdated: getYesterday(),
+          });
+        } else {
+          res.data.errs &&
+            res.data.errs.forEach((err) => {
+              toast.error(err);
+            });
+          setDisabled(false);
+        }
+      })
+      .catch((err) => {
+        toast.error(err);
+        setDisabled(false);
       });
   };
 
   return (
     <main className=" bg-slate-900 flex flex-col justify-center  items-center w-full gap-6 min-h-onlymain">
+      <Button onClick={deleteHandler} variant="contained">
+        Delete
+      </Button>
       <div className="flex max-w-xs  w-full flex-col justify-center items-center gap-6">
         <div className="text-white font-extralight text-lg">
-          last updated: {formatDistance(new Date(lastUpdated), new Date())} ago
+          last updated:{" "}
+          {formatDistance(new Date(userData.lastUpdated), new Date())} ago
         </div>
         <div className="flex flex-col select-none w-full justify-center bg-primary text-white py-8 rounded-md">
           <div className="text-7xl w-full flex font-bold justify-center">
@@ -100,21 +154,21 @@ function Main({ wastedDays, marks, lastUpdated }) {
       </div>
       <div
         className={`max-w-xs w-full select-none flex flex-col justify-center items-center ${
-          marks >= 95
+          userData.marks >= 95
             ? "bg-green-400"
-            : marks >= 85
+            : userData.marks >= 85
             ? "bg-orange-400"
             : "bg-rose-500"
         } text-white rounded-md py-8`}
       >
         <div className="text-7xl flex flex-col w-full justify-center items-center font-bold ">
-          {getMarks(wastedDays)}
+          {getMarks(userData.wastedDays)}
         </div>
         <div>Percentage</div>
       </div>
       <div className="flex font-bold text-white gap-4">
         <div>DAYS WASTED :</div>
-        <div>{wastedDays}</div>
+        <div>{userData.wastedDays}</div>
       </div>
     </main>
   );

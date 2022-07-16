@@ -18,16 +18,16 @@ export const getYesterday = () => {
   return yesterday;
 };
 
-export const getDaysPassed = (dateString) => {
+export const getDaysPassed = (lastUpdatedString) => {
   const today = getToday().getTime();
   console.log("today:", today);
-  const date = new Date(dateString);
+  const lastUpdated = new Date(lastUpdatedString);
   const dateNoon = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate(),
+    lastUpdated.getFullYear(),
+    lastUpdated.getMonth(),
+    lastUpdated.getDate(),
     0,
-    5
+    0
   );
   console.log("date:", dateNoon);
   const daysPassed = Math.floor((today - dateNoon) / (1000 * 60 * 60 * 24));

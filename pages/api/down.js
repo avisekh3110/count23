@@ -44,6 +44,9 @@ const downHandler = (req, res) => {
                       {
                         lastUpdated: new Date().toUTCString(),
                         $inc: { wastedDays: 1 },
+                      },
+                      {
+                        returnDocument: "after",
                       }
                     )
                       .then((updatedUser) => {
