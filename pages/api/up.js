@@ -2,13 +2,14 @@ import { isToday } from "date-fns";
 import User from "../../models/user";
 import logger from "../../utils/logger";
 import { getMarks } from "../../utils/marks";
+import { log } from "next-axiom";
 
 const upHandler = (req, res) => {
   const upLogger = logger.child({
     name: "/api/up",
     method: req.method,
   });
-
+  upLogger.info({ data: { path: "/api/up", method: req.method } });
   if (req.method === "POST") {
     User.exists({}).then((exists) => {
       if (exists) {

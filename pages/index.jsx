@@ -71,7 +71,6 @@ function Main({ wastedDays, marks, lastUpdated }) {
         </div>
         <div className="flex justify-between  w-full">
           <button
-            disabled={disabled}
             onClick={handleUp}
             className={`px-10 text-white ${
               disabled ? "cursor-not-allowed" : "active:scale-105"
@@ -80,7 +79,6 @@ function Main({ wastedDays, marks, lastUpdated }) {
             <ArrowUp className="text-5xl" />
           </button>
           <button
-            disabled={disabled}
             onClick={handleDown}
             className={`px-10 text-white ${
               disabled ? "cursor-not-allowed" : "active:scale-105"

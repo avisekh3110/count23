@@ -2,25 +2,26 @@ import { isToday } from "date-fns";
 import User from "../../models/user";
 import logger from "../../utils/logger";
 
-const upHandler = (req, res) => {
-  const upLogger = logger.child({
-    name: "/api/up",
+const downHandler = (req, res) => {
+  const downLogger = logger.child({
+    name: "/api/down",
     method: req.method,
   });
+  downLogger.info({ data: { path: "/api/down", method: req.method } });
 
   if (req.method === "POST") {
     User.exists({}).then((exists) => {
       if (exists) {
         User.findOne({})
           .then((user) => {
-            upLogger.info({
+            downLogger.info({
               data: {
                 isToday: isToday(new Date(user.lastUpdated)),
                 lastUpdated: user.lastUpdated,
               },
             });
             if (isToday(new Date(user.lastUpdated))) {
-              upLogger.info("User already updated today");
+              downLogger.info("User already updated today");
               res.status(200).json({
                 result: false,
                 errs: ["User already updated today"],
@@ -35,7 +36,7 @@ const upHandler = (req, res) => {
                 }
               )
                 .then((updatedUser) => {
-                  upLogger.info({
+                  downLogger.info({
                     data: {
                       user: updatedUser,
                       message: "Wasted successfully",
@@ -48,7 +49,7 @@ const upHandler = (req, res) => {
                   });
                 })
                 .catch((errFOU) => {
-                  upLogger.error({ data: { err: errFOU } });
+                  downLogger.error({ data: { err: errFOU } });
                   res.send({
                     message: "Error updating user",
                     errs: ["Error updating user"],
@@ -58,7 +59,7 @@ const upHandler = (req, res) => {
             }
           })
           .catch((errFOU) => {
-            upLogger.error({ data: { err: errFOU } });
+            downLogger.error({ data: { err: errFOU } });
             res.send({
               message: "Error finding user",
               errs: ["Error finding user"],
@@ -81,4 +82,4 @@ const upHandler = (req, res) => {
     });
   }
 };
-export default upHandler;
+export default downHandler;
