@@ -92,36 +92,8 @@ function Main({ wastedDays, marks, lastUpdated }) {
       });
   };
 
-  const deleteHandler = () => {
-    axios
-      .post("/api/delete")
-      .then((res) => {
-        if (res.data.result) {
-          toast.success("Successfully deleted your account!");
-          setUserData({
-            wastedDays: 0,
-            marks: getMarks(0),
-            lastUpdated: getYesterday(),
-          });
-        } else {
-          res.data.errs &&
-            res.data.errs.forEach((err) => {
-              toast.error(err);
-            });
-          setDisabled(false);
-        }
-      })
-      .catch((err) => {
-        toast.error(err);
-        setDisabled(false);
-      });
-  };
-
   return (
     <main className=" bg-slate-900 flex flex-col justify-center  items-center w-full gap-6 min-h-onlymain">
-      <Button onClick={deleteHandler} variant="contained">
-        Delete
-      </Button>
       <div className="flex max-w-xs  w-full flex-col justify-center items-center gap-6">
         <div className="text-white font-extralight text-lg">
           last updated:{" "}
