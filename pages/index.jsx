@@ -29,32 +29,42 @@ function Main({ wastedDays, marks, lastUpdated }) {
   const [disabled, setDisabled] = useState(isToday(new Date(lastUpdated)));
 
   const handleUp = () => {
-    axios.post("/api/up").then((res) => {
-      if (res.data.result) {
-        console.log(res.data);
-        toast.success("Successfully utilised the day!");
-        setDisabled(true);
-      } else {
-        res.data.errs &&
-          res.data.errs.forEach((err) => {
-            toast.error(err);
-          });
-      }
-    });
+    axios
+      .post("/api/up")
+      .then((res) => {
+        if (res.data.result) {
+          console.log(res.data);
+          toast.success("Successfully utilised the day!");
+          setDisabled(true);
+        } else {
+          res.data.errs &&
+            res.data.errs.forEach((err) => {
+              toast.error(err);
+            });
+        }
+      })
+      .catch((err) => {
+        toast.error(err);
+      });
   };
 
   const handleDown = () => {
-    axios.post("/api/down").then((res) => {
-      if (res.data.result) {
-        toast.error("Successfully wasted the day! 🥲");
-        setDisabled(true);
-      } else {
-        res.data.errs &&
-          res.data.errs.forEach((err) => {
-            toast.error(err);
-          });
-      }
-    });
+    axios
+      .post("/api/down")
+      .then((res) => {
+        if (res.data.result) {
+          toast.error("Successfully wasted the day! 🥲");
+          setDisabled(true);
+        } else {
+          res.data.errs &&
+            res.data.errs.forEach((err) => {
+              toast.error(err);
+            });
+        }
+      })
+      .catch((err) => {
+        toast.error(err);
+      });
   };
 
   return (
