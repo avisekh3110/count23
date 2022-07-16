@@ -227,7 +227,8 @@ export const getServerSideProps = async ({ req, res }) => {
           {
             $set: { lastUpdated: getYesterday().toUTCString() },
             $inc: { wastedDays: daysNotLoggedIn },
-          }
+          },
+          { returnDocument: "after" }
         );
         logger.info({
           data: {

@@ -15,21 +15,15 @@ export const getToday = () => {
 export const getYesterday = () => {
   const today = getToday();
   const yesterday = new Date(today.getTime() - 1000 * 60 * 60 * 24);
+  yesterday.setHours(18, 0, 0, 0);
   return yesterday;
 };
 
 export const getDaysPassed = (lastUpdatedString) => {
   const today = getToday().getTime();
-  console.log("today:", today);
   const lastUpdated = new Date(lastUpdatedString);
-  const dateNoon = new Date(
-    lastUpdated.getFullYear(),
-    lastUpdated.getMonth(),
-    lastUpdated.getDate(),
-    0,
-    0
+  const daysPassed = Math.floor(
+    (today - lastUpdated + 1) / (1000 * 60 * 60 * 24)
   );
-  console.log("date:", dateNoon);
-  const daysPassed = Math.floor((today - dateNoon) / (1000 * 60 * 60 * 24));
   return daysPassed;
 };
