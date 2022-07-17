@@ -4,7 +4,7 @@ import connectDB from "../utils/connectMongoose";
 import { getDaysLeft, getDaysPassed, getYesterday } from "../utils/time";
 import User from "../models/user";
 import logger from "../utils/logger";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { formatDistance } from "date-fns/index";
 import axios from "axios";
@@ -12,19 +12,10 @@ import Head from "next/head";
 import { useState } from "react";
 import { isToday } from "date-fns";
 import { getMarks } from "../utils/marks";
-import { Button } from "@mui/material";
+import { Link as MuiLink } from "@mui/material";
+import Link from "next/link";
 
-function Nav() {
-  return (
-    <nav>
-      <h1 className="px-4 h-14  font-moonrock flex items-center bg-primary text-2xl text-white font-bold">
-        Count23
-      </h1>
-    </nav>
-  );
-}
-
-function Main({ wastedDays, marks, lastUpdated }) {
+export default function Home({ wastedDays, marks, lastUpdated }) {
   const daysLeft = getDaysLeft();
 
   const [disabled, setDisabled] = useState(isToday(new Date(lastUpdated)));
@@ -93,7 +84,10 @@ function Main({ wastedDays, marks, lastUpdated }) {
   };
 
   return (
-    <main className=" bg-slate-900 flex flex-col justify-center  items-center w-full gap-6 min-h-onlymain">
+    <>
+      <Head>
+        <title>Count23</title>
+      </Head>
       <div className="flex max-w-xs  w-full flex-col justify-center items-center gap-6">
         <div className="text-white font-extralight text-lg">
           last updated:{" "}
@@ -142,28 +136,11 @@ function Main({ wastedDays, marks, lastUpdated }) {
         <div>DAYS WASTED :</div>
         <div>{userData.wastedDays}</div>
       </div>
-    </main>
-  );
-}
-
-function Footer() {
-  return (
-    <div className=" px-4 h-10 font-indie bg-primary flex justify-end font-bold items-center text-white">
-      Created by AVISEKH & YASH
-    </div>
-  );
-}
-
-export default function Home({ marks, wastedDays, lastUpdated }) {
-  return (
-    <>
-      <Head>
-        <title>Count23</title>
-      </Head>
-      <Nav />
-      <Main wastedDays={wastedDays} marks={marks} lastUpdated={lastUpdated} />
-      <ToastContainer theme="dark" position="bottom-right" />
-      <Footer />
+      <Link href="/routine">
+        <a className="bg-white px-4 py-2 rounded-md font-bold uppercase fixed bottom-16 right-6">
+          Routine
+        </a>
+      </Link>
     </>
   );
 }

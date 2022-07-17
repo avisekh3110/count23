@@ -1,0 +1,38 @@
+{
+  "18.07.2022": {
+    "physics": ["Motion in a Straight Line 01", "Motion in a Straight Line 02"],
+    "chemistry": ["Mole Concept 01", "Mole Concept 02"],
+    "maths": ["Basic Mathematics 00", "Basic Mathematics 01"]
+  },
+  "19.07.2022": {
+    "physics": ["Motion in a Straight Line 03", "Motion in a Straight Line 04"],
+    "chemistry": ["Mole Concept 03", "Mole Concept 04"],
+    "maths": ["Basic Mathematics 02", "Basic Mathematics 03"]
+  },
+  "20.07.2022": {
+    "physics": ["Motion in a Straight Line 05", "Motion in a Straight Line 06"],
+    "chemistry": [
+      "Mole Concept 05",
+      "Redox Reaction and Volumetric Analysis 01"
+    ],
+    "maths": ["Basic Mathematics 04", "Basic Mathematics 05"]
+  },
+  "21.07.2022": {
+    "physics": ["Motion in a Straight Line 07", "Motion in a Straight Line 08"],
+    "chemistry": [
+      "Redox Reaction and Volumetric Analysis 02",
+      "Redox Reaction and Volumetric Analysis 03"
+    ],
+    "maths": ["Basic Mathematics 06", "Basic Mathematics 07"]
+  },
+  "22.07.2022": {
+    "physics": ["Motion in a Straight Line 09", "Motion in a Straight Line 10"],
+    "chemistry": ["Gaseous State 01", "Gaseous State 02"],
+    "maths": ["Basic Mathematics 08", "Quadratic Equations 01"]
+  },
+  "23.07.2022": {
+    "physics": ["Motion in a Straight Line 11", ""],
+    "chemistry": ["", ""],
+    "maths": ["", ""]
+  }
+}
