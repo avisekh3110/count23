@@ -5,7 +5,7 @@ const RoutineDay = ({ date, subjects }) => {
   const routineDate = new Date(date.split(".").reverse().join("-"));
   const now = new Date();
   return (
-    <div className="w-full bg-slate-900 hover:bg-slate-800 px-6 py-4 rounded-xl border border-gray-800 duration-75">
+    <div className="w-full bg-slate-900 hover:bg-slate-800 px-6 py-4 rounded-xl border border-gray-800 duration-75 max-w-6xl">
       <div className="flex gap-4 items-baseline">
         <div className="flex gap-4 text-white font-black text-lg">
           {routineDate.toDateString()}

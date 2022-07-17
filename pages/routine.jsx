@@ -1,12 +1,11 @@
-import axios from "axios";
 import RoutineDay from "../components/RoutineDay";
 import logger from "../utils/logger";
 
 const Routine = ({ routine }) => {
   return (
-    <div className="w-full flex flex-col justify-between p-6 gap-4">
+    <div className="w-full flex flex-col items-center justify-between px-6 pt-20 pb-6 gap-10">
       {Object.keys(routine).map((date, idx) => (
-        <RoutineDay date={date} subjects={routine[date]} />
+        <RoutineDay key={idx} date={date} subjects={routine[date]} />
       ))}
     </div>
   );
@@ -19,9 +18,7 @@ export const getStaticProps = async () => {
     name: "routine",
   });
   try {
-    const { data: routine } = await axios.get(
-      "http://localhost:3000/routine.json"
-    );
+    const routine = (await import("../public/routine.json")).default;
     routineLogger.info({
       data: { routine },
     });
